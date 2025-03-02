@@ -7,7 +7,7 @@ app = Flask(__name__)
 TELEGRAM_BOT_TOKEN = "7788946008:AAGULYh-GIkpr-GA3ZA70ERdCAT6BcGNW-g"
 CHAT_ID = "-1002307069728"
 
-# 🌍 Функция для получения данных о погоде
+# 🌍 Функция получения погоды
 def get_weather_data(city):
     geocode_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1&format=json"
     geocode_response = requests.get(geocode_url)
@@ -37,7 +37,7 @@ def get_weather_data(city):
         "wind_speed": f"{wind_speed} km/h"
     }
 
-# 📡 Функция отправки сообщения в Telegram
+# 📡 Функция отправки в Telegram
 def send_telegram_message(message):
     telegram_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
@@ -46,9 +46,9 @@ def send_telegram_message(message):
     }
     requests.post(telegram_url, json=payload)
 
-# 🚀 Маршрут для API запроса погоды
+# 🚀 API для обработки запроса
 @app.route("/weather", methods=["POST"])
-def get_weather():
+def weather_endpoint():
     data = request.get_json()
     city = data.get("city")
 
@@ -71,3 +71,4 @@ def get_weather():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
