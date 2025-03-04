@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-# 🔑 Данные для Telegram
+# 🌑 Данные для Telegram
 TELEGRAM_BOT_TOKEN = "7788946008:AAGULYh-GIkpr-GA3ZA70ERdCAT6BcGNW-g"
 CHAT_ID = "-1002307069728"
 
@@ -37,7 +37,7 @@ def get_weather_data(city):
         "wind_speed": f"{wind_speed} km/h"
     }
 
-# 📡 Функция отправки в Telegram
+# 💽 Функция отправки в Telegram
 def send_telegram_message(message):
     telegram_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
@@ -46,7 +46,7 @@ def send_telegram_message(message):
     }
     requests.post(telegram_url, json=payload)
 
-# 🚀 API для обработки запроса
+# ⚛️ API для обработки запроса
 @app.route("/weather", methods=["POST"])
 def weather_endpoint():
     data = request.get_json()
@@ -59,16 +59,15 @@ def weather_endpoint():
 
     if "error" not in weather_info:
         message = (
-            f"Данные из OpenAI\n"
-            f"🌍 Погода в {weather_info['city']}:\n"
-            f"🌡 Температура: {weather_info['temperature']}\n"
-            f"💧 Влажность: {weather_info['humidity']}\n"
-            f"💨 Ветер: {weather_info['wind_speed']}"
+            "Данные из OpenAI\n"
+            "\U0001F30D Погода в " + weather_info["city"] + ":\n"
+            "\U0001F321 Температура: " + weather_info["temperature"] + "\n"
+            "\U0001F4A7 Влажность: " + weather_info["humidity"] + "\n"
+            "\U0001F32C Ветер: " + weather_info["wind_speed"]
         )
         send_telegram_message(message)
 
-    return jsonify(weather_info)
+    return jsonify({"response": message})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-
